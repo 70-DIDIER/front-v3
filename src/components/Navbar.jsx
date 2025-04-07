@@ -66,8 +66,8 @@ function Navbar() {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/" className="dropdown-item">
-                                            Recherche
+                                        <Link to="/mes-rendezvous" className="dropdown-item">
+                                            Mes rendez-vous
                                         </Link>
                                     </li>
                                 </ul>

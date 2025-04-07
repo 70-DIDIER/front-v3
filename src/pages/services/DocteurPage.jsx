@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../services/Api';
 
-export default function RendezVousList() {
+export default function RendezVousDocteurList() {
     const [rendezVousList, setRendezVousList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -9,7 +9,7 @@ export default function RendezVousList() {
     useEffect(() => {
         const fetchRendezVous = async () => {
             try {
-                const response = await api.get('/mes-rendezvous'); // 🔁 adapte cette route selon ton backend
+                const response = await api.get('/mes-rendezvous-docteur');
                 setRendezVousList(response.data);
             } catch (err) {
                 setError("Erreur lors du chargement des rendez-vous.");
@@ -20,15 +20,34 @@ export default function RendezVousList() {
         fetchRendezVous();
     }, []);
 
-    if (loading) return <div className="text-center mt-4">Chargement...</div>;
+    const handleAction = async (id, statut) => {
+        const date = prompt("Entrez la date (YYYY-MM-DD) :", new Date().toISOString().split('T')[0]);
+        const heure = prompt("Entrez l'heure (HH:MM) :", "10:00");
 
+        try {
+            await api.put(`/rendezvous/${id}/update`, {
+                statut,
+                dateConsultationAt: date,
+                heureConsultation: heure
+            });
+
+            // Rafraîchissement après mise à jour
+            setRendezVousList(prev =>
+                prev.map(rdv => rdv.id === id ? { ...rdv, statut, dateConsultationAt: date, heureConsultation: heure } : rdv)
+            );
+        } catch (err) {
+            alert("Erreur lors de la mise à jour du rendez-vous.");
+        }
+    };
+
+    if (loading) return <div className="text-center mt-4">Chargement...</div>;
     if (error) return <div className="alert alert-danger text-center">{error}</div>;
 
     return (
         <div className="container mt-5">
             <div className="card shadow">
-                <div className="card-header bg-primary text-white">
-                    <h4 className="mb-0">Mes Rendez-vous</h4>
+                <div className="card-header bg-success text-white">
+                    <h4 className="mb-0">Rendez-vous reçus</h4>
                 </div>
                 <div className="card-body">
                     {rendezVousList.length === 0 ? (
@@ -44,7 +63,8 @@ export default function RendezVousList() {
                                         <th>Date</th>
                                         <th>Heure</th>
                                         <th>Statut</th>
-                                        <th>Médecin</th>
+                                        <th>Patient</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,15 +73,22 @@ export default function RendezVousList() {
                                             <td>{index + 1}</td>
                                             <td>{rdv.description}</td>
                                             <td>{rdv.typeConsultation}</td>
-                                            <td>{new Date(rdv.dateConsultationAt).toLocaleDateString()}</td>
-                                            <td>{new Date(rdv.heureConsultation).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                                            <td>{rdv.dateConsultationAt ? new Date(rdv.dateConsultationAt).toLocaleDateString() : '-'}</td>
+                                            <td>{rdv.heureConsultation ? new Date(rdv.heureConsultation).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</td>
                                             <td>
-                                                <span className={`badge bg-${rdv.statut === 'en attente' ? 'warning' : 'success'}`}>
+                                                <span className={`badge bg-${rdv.statut === 'en attente' ? 'warning' : rdv.statut === 'accepté' ? 'success' : 'danger'}`}>
                                                     {rdv.statut}
                                                 </span>
                                             </td>
+                                              {rdv.patient?.nom} {rdv.patient?.prenom}
                                             <td>
-                                                {rdv.docteur.nom} {rdv.docteur.prenom} {/* ou adapte si nom/prénom dispo */}
+                                              {rdv.statut?.toLowerCase() === 'en attente' && (
+                                                  <>
+                                                      <button onClick={() => handleAction(rdv.id, 'accepté')} className="btn btn-sm btn-success me-2">Accepter</button>
+                                                      <button onClick={() => handleAction(rdv.id, 'refusé')} className="btn btn-sm btn-danger">Refuser</button>
+                                                  </>
+                                                )}
+                                                
                                             </td>
                                         </tr>
                                     ))}
