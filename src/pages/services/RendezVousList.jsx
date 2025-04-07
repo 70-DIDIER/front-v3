@@ -56,7 +56,7 @@ export default function RendezVousList() {
                                             <td>{new Date(rdv.dateConsultationAt).toLocaleDateString()}</td>
                                             <td>{new Date(rdv.heureConsultation).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                                             <td>
-                                                <span className={`badge bg-${rdv.statut === 'en attente' ? 'warning' : 'success'}`}>
+                                                <span className={`badge bg-${rdv.statut === 'en attente' ? 'warning' : rdv.statut === 'accepté' ? 'success' : 'danger'}`}>
                                                     {rdv.statut}
                                                 </span>
                                             </td>
