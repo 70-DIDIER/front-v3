@@ -29,7 +29,6 @@ export default function Register() {
         setIsSubmitting(true);
 
         try {
-            // 1. Enregistrement
             const registerResponse = await api.post('/register', {
                 nom: formData.nom,
                 prenom: formData.prenom,
@@ -37,27 +36,27 @@ export default function Register() {
                 password: formData.password
             });
 
-            // Vérifier si l'inscription a réussi
-            if (!registerResponse.data.success) {
+            console.log("Réponse API inscription:", registerResponse.data); // Debug
+
+            // Vérifier si l'inscription est réussie
+            if (!registerResponse.data.userId) {
                 throw new Error(registerResponse.data.message || "Erreur lors de l'inscription");
             }
 
-            // 2. Connexion automatique
-            const loginResult = await login(formData.username, formData.password, { username: formData.email });
+            console.log("Inscription réussie ! Redirection vers login...");
 
-            if (!loginResult.success) {
-                throw new Error(loginResult.message || "Connexion automatique échouée");
-            }
-
-            // Redirection vers la page d'accueil
-            navigate("/");
+            // 🔥 Redirection immédiate vers la page de connexion
+            navigate("/login");
 
         } catch (err) {
-            console.error("Registration error:", err);
-            setError(err.response?.data?.message || err.message || "Erreur lors de l'inscription");
+            console.error("Erreur d'inscription :", err.message);
+            setError(err.message || "Erreur inconnue");
         } finally {
             setIsSubmitting(false);
         }
+
+
+
     };
 
     return (
