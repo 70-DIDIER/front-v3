@@ -19,6 +19,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './custom-bootstrap.scss';
+import DocteurPage from './pages/services/DocteurPage';
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
             <Route path="/register" element={<Register />} />
 
             {/* Routes protégées */}
-            <Route path="/" element={<PrivateRoute><Home /><Service /></PrivateRoute>} />
+            <Route path="/" element={<PrivateRoute><Home /><Service /><DocteurPage /></PrivateRoute>} />
             <Route path="/service" element={<PrivateRoute><Service /></PrivateRoute>} />
             <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
             <Route path="/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
