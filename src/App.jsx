@@ -20,6 +20,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './custom-bootstrap.scss';
 import DocteurPage from './pages/services/DocteurPage';
+import MesNotifications from './pages/notification/MesNotifications';
+import MesNotificationsDocteur from './pages/notification/MesNotificationsDocteur';
 
 function App() {
   return (
@@ -39,6 +41,9 @@ function App() {
             <Route path="/Hopital" element={<PrivateRoute><Hopital /></PrivateRoute>} />
             <Route path="/appointement" element={<PrivateRoute><Appointement /></PrivateRoute>} />
             <Route path="/mes-rendezvous" element={<PrivateRoute><RendezVousList /></PrivateRoute>} />
+            <Route path="/mes-notifications" element={<PrivateRoute><MesNotifications /></PrivateRoute>} />
+            <Route path="/mes-notifications" element={<PrivateRoute><MesNotificationsDocteur /></PrivateRoute>} />
+
 
             
           </Routes>
