@@ -5,6 +5,8 @@ import api from "../services/Api";
 
 export default function Register() {
     const [formData, setFormData] = useState({
+        nom: "",
+        prenom: "",
         email: "",
         password: "",
         confirmPassword: ""
@@ -29,22 +31,26 @@ export default function Register() {
         try {
             // 1. Enregistrement
             const registerResponse = await api.post('/register', {
+                nom: formData.nom,
+                prenom: formData.prenom,
                 email: formData.email,
                 password: formData.password
             });
 
-            if (!registerResponse.data.message.includes("succès")) {
+            // Vérifier si l'inscription a réussi
+            if (!registerResponse.data.success) {
                 throw new Error(registerResponse.data.message || "Erreur lors de l'inscription");
             }
 
             // 2. Connexion automatique
-            const loginResult = await login(formData.email, formData.password);
-            
-            if (loginResult.success) {
-                navigate("/"); // Redirection vers la page d'accueil
-            } else {
-                throw new Error("Connexion automatique échouée");
+            const loginResult = await login(formData.username, formData.password, { username: formData.email });
+
+            if (!loginResult.success) {
+                throw new Error(loginResult.message || "Connexion automatique échouée");
             }
+
+            // Redirection vers la page d'accueil
+            navigate("/");
 
         } catch (err) {
             console.error("Registration error:", err);
@@ -54,16 +60,39 @@ export default function Register() {
         }
     };
 
-
     return (
         <div className="container col-md-6 col-lg-4 mt-5">
             <div className="card shadow">
                 <div className="card-body p-4">
                     <h2 className="text-center mb-4">Inscription</h2>
-                    
+
                     {error && <div className="alert alert-danger">{error}</div>}
 
                     <form onSubmit={handleSubmit}>
+
+                        <div className="mb-3">
+                            <label htmlFor="nom" className="form-nom">Nom</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="nom"
+                                value={formData.nom}
+                                onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="prenom" className="form-prenom">Prénom</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="prenom"
+                                value={formData.prenom}
+                                onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
+                                required
+                            />
+                        </div>
+
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email</label>
                             <input
@@ -71,7 +100,7 @@ export default function Register() {
                                 className="form-control"
                                 id="email"
                                 value={formData.email}
-                                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                 required
                             />
                         </div>
@@ -83,7 +112,7 @@ export default function Register() {
                                 className="form-control"
                                 id="password"
                                 value={formData.password}
-                                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                 minLength="6"
                                 required
                             />
@@ -96,13 +125,13 @@ export default function Register() {
                                 className="form-control"
                                 id="confirmPassword"
                                 value={formData.confirmPassword}
-                                onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                                 required
                             />
                         </div>
 
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className="btn btn-primary w-100"
                             disabled={isSubmitting}
                         >

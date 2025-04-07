@@ -15,7 +15,7 @@ export default function Appointment() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-
+    console.log("User ID:", user?.id); // Doit afficher 83 (pas l'email)
     // Chargement des médecins
     useEffect(() => {
         const loadDoctors = async () => {
@@ -48,7 +48,7 @@ export default function Appointment() {
             const payload = {
                 ...formData,
                 patient: user.id,
-                heureRendezVous: formData.heureRendezVous + ':00' // Ajout des secondes
+                heureRendezVous: formData.heureRendezVous // Ajout des secondes
             };
 
             const response = await api.post('/rendezVous', payload);
