@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/Api';
 
@@ -15,7 +16,8 @@ export default function Appointment() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    console.log("User ID:", user?.id); // Doit afficher 83 (pas l'email)
+    const navigate = useNavigate();
+
     // Chargement des médecins
     useEffect(() => {
         const loadDoctors = async () => {
@@ -47,8 +49,7 @@ export default function Appointment() {
             // Préparation des données selon le format Postman
             const payload = {
                 ...formData,
-                patient: user.id,
-                heureRendezVous: formData.heureRendezVous // Ajout des secondes
+                heureRendezVous: formData.heureRendezVous + ':00' // Ajout des secondes
             };
 
             const response = await api.post('/rendezVous', payload);
@@ -62,6 +63,7 @@ export default function Appointment() {
                     docteur: '',
                     typeConsultation: ''
                 });
+                navigate('/mes-rendezvous'); // Redirection vers la liste des rendez-vous
             }
         } catch (err) {
             const errorMessage = err.response?.data?.message || 
@@ -105,7 +107,7 @@ export default function Appointment() {
                                     required
                                 >
                                     <option value="">Sélectionnez...</option>
-                                    <option value="Au cabinet">Au cabinet</option>
+                                    <option value="Au cabinet">À l'hôpital</option>
                                     <option value="En ligne">En ligne</option>
                                     <option value="À domicile">À domicile</option>
                                 </select>
