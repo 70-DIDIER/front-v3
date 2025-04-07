@@ -12,6 +12,7 @@ import Register from './pages/Register';
 import Pharmacies from './pages/services/Pharmacie';
 import Appointement from './pages/services/Appointement';
 import Hopital from './pages/services/Hopital';
+import RendezVousList from './pages/services/RendezVousList';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -36,6 +37,9 @@ function App() {
             <Route path="/pharmacies" element={<PrivateRoute><Pharmacies /></PrivateRoute>} />
             <Route path="/Hopital" element={<PrivateRoute><Hopital /></PrivateRoute>} />
             <Route path="/appointement" element={<PrivateRoute><Appointement /></PrivateRoute>} />
+            <Route path="/mes-rendezvous" element={<PrivateRoute><RendezVousList /></PrivateRoute>} />
+
+            
           </Routes>
           <Footer />
         </AuthProvider>
