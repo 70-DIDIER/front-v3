@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { FaBell } from "react-icons/fa"; // 📌 icône de notification
 
 function Navbar() {
     const { user, logout } = useAuth();
@@ -64,15 +63,7 @@ function Navbar() {
 
                             <Link to="/contact" className="nav-item nav-link me-3">Contact</Link>
 
-                            {/* 🔔 Icône Notification pour Patient ou Docteur */}
-                            {(isPatient || isDocteur) && (
-                                <Link to="/mes-notifications" className="nav-link position-relative me-3">
-                                    <FaBell size={24} color="#0077B6" />
-                                    <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                                        <span className="visually-hidden">New alerts</span>
-                                    </span>
-                                </Link>
-                            )}
+                            
 
                             {/* Connexion/Déconnexion */}
                             {user ? (
