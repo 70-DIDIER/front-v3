@@ -43,9 +43,6 @@ function App() {
             <Route path="/mes-rendezvous" element={<PrivateRoute><RendezVousList /></PrivateRoute>} />
             <Route path="/mes-notifications" element={<PrivateRoute><MesNotifications /></PrivateRoute>} />
             <Route path="/mes-notifications" element={<PrivateRoute><MesNotificationsDocteur /></PrivateRoute>} />
-
-
-            
           </Routes>
           <Footer />
         </AuthProvider>
