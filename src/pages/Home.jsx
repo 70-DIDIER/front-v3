@@ -73,7 +73,7 @@ function Home() {
                   </Link>
                   <Link
                     style={{ backgroundColor: "#0077B6", color: "#000000", fontWeight: "bold" }}
-                    to="/appointement"
+                    to="/prise-rendez-vous"
                     className="btn btn-outline-light rounded-pill hero-btn"
                   >
                     Prendre rendez-vous

@@ -51,13 +51,13 @@ function Navbar() {
                                 </Link>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <Link to="/appointement" className="dropdown-item">Rendez-vous</Link>
+                                        <Link to="/prise-rendez-vous" className="dropdown-item">Rendez-vous</Link>
                                     </li>
                                     <li>
                                         <Link to="/pharmacies" className="dropdown-item">Pharmacies de garde</Link>
                                     </li>
                                     <li>
-                                        <Link to="/mes-rendezvous" className="dropdown-item">Mes rendez-vous</Link>
+                                        <Link to="/mes-rdv" className="dropdown-item">Mes rendez-vous</Link>
                                     </li>
                                 </ul>
                             </div>

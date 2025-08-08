@@ -10,9 +10,7 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Pharmacies from './pages/services/Pharmacie';
-import Appointement from './pages/services/Appointement';
 import Hopital from './pages/services/Hopital';
-import RendezVousList from './pages/services/RendezVousList';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -21,34 +19,39 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import './custom-bootstrap.scss';
 import MesNotifications from './pages/notification/MesNotifications';
 import MesNotificationsDocteur from './pages/notification/MesNotificationsDocteur';
+import PriseRendezVous from './pages/patient/PriseRendezVous/PriseRendezVous';
+import MesRendezVous from './pages/patient/PriseRendezVous/MesRendezVous';
+
 
 function App() {
   return (
-      <Router>
-        <AuthProvider>
-          <Navbar />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+    <Router>
+      <AuthProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-            {/* Routes protégées */}
-            <Route path="/" element={<PrivateRoute><Home /><Service /></PrivateRoute>} />
-            <Route path="/service" element={<PrivateRoute><Service /></PrivateRoute>} />
-            <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
-            <Route path="/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
-            <Route path="/pharmacies" element={<PrivateRoute><Pharmacies /></PrivateRoute>} />
-            <Route path="/Hopital" element={<PrivateRoute><Hopital /></PrivateRoute>} />
-            <Route path="/appointement" element={<PrivateRoute><Appointement /></PrivateRoute>} />
-            <Route path="/mes-rendezvous" element={<PrivateRoute><RendezVousList /></PrivateRoute>} />
-            <Route path="/mes-notifications" element={<PrivateRoute><MesNotifications /></PrivateRoute>} />
-            <Route path="/mes-notifications" element={<PrivateRoute><MesNotificationsDocteur /></PrivateRoute>} />
+          {/* Routes protégées */}
+          <Route path="/" element={<PrivateRoute><Home /><Service /></PrivateRoute>} />
+          <Route path="/service" element={<PrivateRoute><Service /></PrivateRoute>} />
+          <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
+          <Route path="/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
+          <Route path="/pharmacies" element={<PrivateRoute><Pharmacies /></PrivateRoute>} />
+          <Route path="/Hopital" element={<PrivateRoute><Hopital /></PrivateRoute>} />
+          <Route path="/mes-notifications" element={<PrivateRoute><MesNotifications /></PrivateRoute>} />
+          <Route path="/mes-notifications" element={<PrivateRoute><MesNotificationsDocteur /></PrivateRoute>} />
+          <Route path="/prise-rendez-vous" element={<PrivateRoute><PriseRendezVous /></PrivateRoute>} />
+          <Route path="/mes-rdv" element={<PrivateRoute><MesRendezVous /></PrivateRoute>} />
+
+          {/* Routes publiques */}
 
 
-            
-          </Routes>
-          <Footer />
-        </AuthProvider>
-      </Router>
+
+        </Routes>
+        <Footer />
+      </AuthProvider>
+    </Router>
 
   );
 }
